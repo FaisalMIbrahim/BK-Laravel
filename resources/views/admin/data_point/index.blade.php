@@ -1,0 +1,68 @@
+@extends('layouts.app')
+
+@section('title', 'Data Point')
+@section('content')
+
+<section class="section">
+    <div class="section-header">
+        <h1>Point</h1>
+    </div>
+    <div class="row">
+        <div class="col-lg-12 col-md-12 col-12 col-sm-12">
+            <div class="card">
+                <div class="card-header">
+                    <form class="form-inline mr-auto" method="get" action="{{ route('search_point') }}">
+                        <div class="search-element">
+                            <input type="text" name="search" class="form-control w-70 d-inline" data-width="250" id="search" placeholder="Pencarian...">
+                            <button type="submit" class="btn btn-primary"><i class='fas fa-search'></i> Cari</button>
+                        </div>
+                        <br><br>
+                    </form>
+                    <div class="card-header-action">
+                        <a href="#" class="btn btn-primary" data-toggle="modal" data-target="#tambah"><i class='fas fa-plus-circle'></i> Tambah</a>
+                    </div>
+                </div>
+                <div class="card-body p-0">
+                    <div class="table-responsive">
+                        <table class="table table-striped mb-0 text-center">
+                            <thead>
+                                <tr>
+
+                                    <th>NO</th>
+                                    <th>Point</th>
+                                    <th>Keterangan</th>
+                                    <th>Action</th>
+                                   
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach($tb_point as $no => $item)
+                                    <tr>
+                                        <td>{{ $no + 1 }}</td>
+                                        <td>{{ $item->point }}</td>
+                                        <td>{{ $item->keterangan }}</td>
+                                       
+                                        <td>
+                                            <a href="#" class="btn btn-info btn-action mr-1" data-target="#edit-{{$item->id}}" data-toggle="modal"
+                                                title="Edit"><i class='fas fa-edit'></i></a>
+                                            <form action="{{ route('point.destroy', $item->id) }}" class="d-inline" method="POST">
+                                                @csrf
+                                                @method('delete')
+                                                <button class="btn btn-danger btn-action" data-toggle="tooltip" title="Delete"><i class="fas fa-trash"></i></button>
+                                            </form>
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+@include('admin.data_point.create')
+@include('admin.data_point.edit')
+@endsection
